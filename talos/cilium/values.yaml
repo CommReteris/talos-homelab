@@ -7,7 +7,7 @@ securityContext:
   privileged: true
 
 rollOutCiliumPods: true
-localRedirectPolicy: true
+localRedirectPolicy: false
 
 # kubeProxyReplacement enables kube-proxy replacement in Cilium BPF datapath
 kubeProxyReplacement: "strict"
@@ -29,9 +29,9 @@ ipam:
 
 # Cilium leverages MetalLB's simplified BGP announcement system for service type: LoadBalancer
 bgp:
-  enabled: true
+  enabled: false
   announce:
-    loadbalancerIP: true
+    loadbalancerIP: false
 
 hubble:
   # -- Enable Hubble (true by default).
