@@ -1,31 +1,29 @@
 #!/usr/bin/env bash
-cd ~/dev/homelab/homelab/talos
-talhelper genconfig
+cd ~/talos-homelab/talos
+#talhelper genconfig
 
-export TALOSCONFIG=~/dev/homelab/homelab/talos/clusterconfig/talosconfig
+#export TALOSCONFIG=~/dev/homelab/homelab/talos/clusterconfig/talosconfig
 
-talosctl config node "10.250.2.200"; talosctl config endpoint 10.250.2.200 10.250.2.201 10.250.2.202 10.250.2.254
+#talosctl config node "10.13.10.190"; talosctl config endpoint 10.13.10.190 10.13.10.191 10.13.10.192 10.13.10.98
 
-echo Applying master..
-talosctl apply-config --insecure --nodes 10.250.2.200 --file clusterconfig/homelab-talos-0-homelab-talos-0-controlplane-0.yaml
-talosctl apply-config --insecure --nodes 10.250.2.201 --file clusterconfig/homelab-talos-0-homelab-talos-0-controlplane-1.yaml
-talosctl apply-config --insecure --nodes 10.250.2.202 --file clusterconfig/homelab-talos-0-homelab-talos-0-controlplane-2.yaml
+echo Applying nano-0..
+talosctl apply-config --insecure --nodes 10.13.10.190 --file clusterconfig/nanocluster-nano-0.yaml -e 10.13.10.190
+echo Applying nano-1..
+talosctl apply-config --insecure --nodes 10.13.10.191 --file clusterconfig/nanocluster-nano-1.yaml -e 10.13.10.191
+echo Applying nano-2..
+talosctl apply-config --insecure --nodes 10.13.10.192 --file clusterconfig/nanocluster-nano-2.yaml -e 10.13.10.192
 
-echo Applying worker..
-talosctl apply-config --insecure --nodes 10.250.2.210 --file clusterconfig/homelab-talos-0-homelab-talos-0-worker-0.yaml
-talosctl apply-config --insecure --nodes 10.250.2.211 --file clusterconfig/homelab-talos-0-homelab-talos-0-worker-1.yaml
-talosctl apply-config --insecure --nodes 10.250.2.212 --file clusterconfig/homelab-talos-0-homelab-talos-0-worker-2.yaml
-talosctl apply-config --insecure --nodes 10.250.2.213 --file clusterconfig/homelab-talos-0-homelab-talos-0-worker-3.yaml
-talosctl apply-config --insecure --nodes 10.250.2.214 --file clusterconfig/homelab-talos-0-homelab-talos-0-worker-4.yaml
+echo Applying nano-3..
+talosctl apply-config --insecure --nodes 10.13.10.193 --file clusterconfig/nanocluster-nano-3.yaml -e 10.13.10.193
 
 echo Sleep..
-sleep 120
+sleep 180
 
 echo Running bootstrap..
 talosctl bootstrap
 
 echo Sleep..
-sleep 180
+sleep 360
 
 talosctl kubeconfig -f .
 export KUBECONFIG=$(pwd)/kubeconfig

@@ -1,17 +1,17 @@
 variable "cluster_name" {
-    default = "homelab-talos-0"
+    default = "proxmox-talos-0"
 
 }
 variable "worker_node_count" {
     description = "Number of worker nodes for the cluster."
     type = number
-    default = 5
+    default = 2
 }
 
 variable "worker_node_memory" {
     description = "The amount of memory in MiB to give the worker nodes."
     type = number
-    default = 32768
+    default = 4096
 }
 
 variable "control_plane_node_count" {
@@ -27,19 +27,19 @@ variable "control_plane_node_count" {
 variable "control_plane_node_memory" {
     description = "The amount of memory in MiB to give the control plane nodes."
     type = number
-    default = 8192
+    default = 2048
 }
 
 variable "iso_image_location" {
     description = "The location of the Talos iso image on the proxmox host (<storage pool>:<content type>/<file name>.iso)."
     type = string
-    default = "zfs-iso:iso/talos-amd64.iso"
+    default = "nfs-iso:iso/talos-amd64.iso"
 }
 
 variable "boot_disk_storage_pool" {
     description = "The name of the storage pool where boot disks for the cluster nodes will be stored."
     type = string
-    default = "ceph"
+    default = "nfs-images"
 }
 
 variable "boot_disk_size" {
@@ -48,34 +48,10 @@ variable "boot_disk_size" {
     default = "100G"
 }
 
-variable "config_network_bridge" {
-    description = "The name of the network bridge on the Proxmox host that will be used for the configuration network."
-    type = string
-    default = "vmbr0"
-}
-
-variable "homelab_vlan" {
-    description = "The VLAN that nodes will recieve DHCP IP assignments and be accessible to other clients on the network."
-    type = number
-    default = 1000
-}
-
-variable "pve_vlan" {
-    description = "The VLAN that nodes will recieve DHCP IP assignments and be accessible to other clients on the network."
-    type = number
-    default = 4000
-}
-
-variable "wifi_vlan" {
-    description = "The wifi vlan"
-    type = number
-    default = 1010
-}
-
 variable "network_bridge" {
     description = "The name of the network bridge on the Proxmox host."
     type = string
-    default = "vmbr0"
+    default = "vmbr10"
 }
 
 variable "qemu_guest_agent" {
@@ -85,7 +61,7 @@ variable "qemu_guest_agent" {
 variable "proxmox_host_node" {
     description = "The name of the proxmox node where the cluster will be deployed"
     type = string
-    default = "pve-fatman"
+    default = "oneiros"
 }
 
 variable "proxmox_tls_insecure" {
@@ -98,4 +74,41 @@ variable "proxmox_debug" {
     description = "If the debug flag should be set when interacting with the Proxmox API."
     type = bool
     default = false
+}
+
+variable "PM_API_TOKEN_ID" {
+  description = "PM_API_TOKEN_ID"
+  type        = string
+}
+
+variable "PM_API_TOKEN_SECRET" {
+  description = "PM_API_TOKEN_SECRET"
+  type        = string
+}
+
+variable "PROXMOX_IP" {
+  description = "PROXMOX_IP"
+  type        = string
+}
+
+variable "public_key_file" {
+  description = "public_key"
+  type        = string
+  default     = "~/.ssh/id_rsa.pub"
+}
+
+variable "private_key_file" {
+  description = "private_key_file"
+  type        = string
+  default     = "~/.ssh/id_rsa"
+}
+
+variable "admin_password" {
+  description = "admin Password"
+  type        = string
+}
+
+variable "admin_user" {
+  description = "admin Username"
+  type        = string
 }

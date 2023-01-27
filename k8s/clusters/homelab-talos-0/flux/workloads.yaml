@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: core
   interval: 2m0s
-  path: ./k8s/clusters/homelab-talos-0/workloads
+  path: ./k8s/clusters/nanocluster/workloads
   prune: true
   sourceRef:
     kind: GitRepository

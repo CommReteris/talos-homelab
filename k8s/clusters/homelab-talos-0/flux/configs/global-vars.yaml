@@ -5,9 +5,9 @@ metadata:
   namespace: flux-system
   name: global-vars
 data:
-  CLUSTER_NAME: "homelab-talos-0"
+  CLUSTER_NAME: "nanocluster"
   CLUSTER_ID: "1"
-  CLUSTER_APISERVER_ENDPOINT: "10.250.2.254"
+  CLUSTER_APISERVER_ENDPOINT: "10.13.10.98"
   CLUSTER_CIDR: "10.244.0.0/16"
   METALLB_RANGE: "10.250.13.1-10.250.14.250"
   CILIUM_BGP_LB_RANGE: "10.250.13.1-10.250.14.250"

@@ -1,8 +1,8 @@
-clusterName: homelab-talos-0
-talosVersion: v1.3.1
+clusterName: nanocluster
+talosVersion: v1.3.2
 kubernetesVersion: v1.26.0
-endpoint: https://10.250.2.254:6443
-allowSchedulingOnMasters: false
+endpoint: https://10.13.10.98:6443
+allowSchedulingOnMasters: true
 clusterPodNets:
   - 10.244.0.0/16
 clusterSvcNets:
@@ -10,227 +10,94 @@ clusterSvcNets:
 cniConfig:
   name: custom
   urls:
-    - https://raw.githubusercontent.com/0dragosh/homelab/main/talos/cilium/quick-install.yaml
+    - https://raw.githubusercontent.com/CommReteris/talos-homelab/main/talos/cilium/quick-install.yaml
 nodes:
-  - hostname: homelab-talos-0-controlplane-0
-    ipAddress: 10.250.2.200
+  - hostname: nano-0
+    ipAddress: 10.13.10.190
     controlPlane: true
-    installDisk: /dev/vda
+    installDisk: /dev/sda
+    install:
+      bootloader: true
+      wipe: true
     nameservers:
-      - 10.250.0.1
+      - 10.13.10.2
     networkInterfaces:
       - interface: eth0
-        mtu: 8978
+        mtu: 1498
         vip:
-          ip: 10.250.2.254
+          ip: 10.13.10.98
         dhcp: true
-      - interface: eth1
-        dhcp: true
-        mtu: 9000
-        dhcpOptions:
-          routeMetric: 2048
     configPatches:
       - op: add
         path: /cluster/apiServer/certSANs
         value:
-          - 10.250.2.254
-          - homelab-talos-0-controlplane-0
-          - homelab-talos-0-controlplane-0.${secret_domain_internal}
-          - homelab-talos-0-controlplane.${secret_domain_internal}
-          - homelab-talos-0.${secret_domain_internal}
-  - hostname: homelab-talos-0-controlplane-1
-    ipAddress: 10.250.2.201
+          - 10.13.10.98
+          - nano-0
+          - nano-0.rengo.internal
+          - nanocluster.rengo.internal
+  - hostname: nano-1
+    ipAddress: 10.13.10.191
     controlPlane: true
-    installDisk: /dev/vda
+    installDisk: /dev/sda
+    install:
+      bootloader: true
+      wipe: true
     nameservers:
-      - 10.250.0.1
+      - 10.13.10.2
     networkInterfaces:
       - interface: eth0
-        mtu: 8978
+        mtu: 1498
         dhcp: true
         vip:
-          ip: 10.250.2.254
-      - interface: eth1
-        dhcp: true
-        mtu: 9000
-        dhcpOptions:
-          routeMetric: 2048
+          ip: 10.13.10.98
     configPatches:
       - op: add
         path: /cluster/apiServer/certSANs
         value:
-          - 10.250.2.254
-          - homelab-talos-0-controlplane-1
-          - homelab-talos-0-controlplane-1.${secret_domain_internal}
-          - homelab-talos-0-controlplane.${secret_domain_internal}
-          - homelab-talos-0.${secret_domain_internal}
-  - hostname: homelab-talos-0-controlplane-2
-    ipAddress: 10.250.2.202
+          - 10.13.10.98
+          - nano-1
+          - nano-1.rengo.internal
+          - nanocluster.rengo.internal
+  - hostname: nano-2
+    ipAddress: 10.13.10.202
     controlPlane: true
-    installDisk: /dev/vda
+    installDisk: /dev/sda
+    install:
+      bootloader: true
+      wipe: true
     nameservers:
-      - 10.250.0.1
+      - 10.13.10.2
     networkInterfaces:
       - interface: eth0
-        mtu: 8978
+        mtu: 1498
         dhcp: true
         vip:
-          ip: 10.250.2.254
-      - interface: eth1
-        dhcp: true
-        mtu: 9000
-        dhcpOptions:
-          routeMetric: 2048
+          ip: 10.13.10.98
     configPatches:
       - op: add
         path: /cluster/apiServer/certSANs
         value:
-          - 10.250.2.254
-          - homelab-talos-0-controlplane-2
-          - homelab-talos-0-controlplane-2.${secret_domain_internal}
-          - homelab-talos-0-controlplane.${secret_domain_internal}
-          - homelab-talos-0.${secret_domain_internal}
-  - hostname: homelab-talos-0-worker-0
-    ipAddress: 10.250.2.210
+          - 10.13.10.98
+          - nano-2
+          - nano-2.rengo.internal
+          - nanocluster.rengo.internal
+  - hostname: nano-3
+    ipAddress: 10.13.10.210
     controlPlane: false
-    installDisk: /dev/vda
+    installDisk: /dev/sda
+    install:
+      bootloader: true
+      wipe: true
     inlinePatch:
       machine:
         time:
           servers:
-            - 10.250.0.1
+            - time.cloudflare.com
         network:
           interfaces:
             - interface: eth0
-              mtu: 8978
+              mtu: 1498
               dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
-  - hostname: homelab-talos-0-worker-1
-    ipAddress: 10.250.2.211
-    controlPlane: false
-    installDisk: /dev/vda
-    inlinePatch:
-      machine:
-        time:
-          servers:
-            - 10.250.0.1
-        network:
-          interfaces:
-            - interface: eth0
-              mtu: 8978
-              dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
-  - hostname: homelab-talos-0-worker-2
-    ipAddress: 10.250.2.212
-    controlPlane: false
-    installDisk: /dev/vda
-    inlinePatch:
-      machine:
-        time:
-          servers:
-            - 10.250.0.1
-        network:
-          interfaces:
-            - interface: eth0
-              mtu: 8978
-              dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
-  - hostname: homelab-talos-0-worker-3
-    ipAddress: 10.250.2.213
-    controlPlane: false
-    installDisk: /dev/vda
-    inlinePatch:
-      machine:
-        network:
-          interfaces:
-            - interface: eth0
-              mtu: 8978
-              dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
-  - hostname: homelab-talos-0-worker-4
-    ipAddress: 10.250.2.214
-    controlPlane: false
-    installDisk: /dev/vda
-    inlinePatch:
-      machine:
-        time:
-          servers:
-            - 10.250.0.1
-        network:
-          interfaces:
-            - interface: eth0
-              mtu: 8978
-              dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
-  - hostname: homelab-talos-0-worker-5
-    ipAddress: 10.250.2.215
-    controlPlane: false
-    installDisk: /dev/vda
-    inlinePatch:
-      machine:
-        time:
-          servers:
-            - 10.250.0.1
-        network:
-          interfaces:
-            - interface: eth0
-              mtu: 8978
-              dhcp: true
-            - interface: eth1
-              dhcp: true
-              mtu: 9000
-              dhcpOptions:
-                routeMetric: 2048
-            - interface: eth2
-              dhcp: true
-              mtu: 1500
-              dhcpOptions:
-                routeMetric: 4096
 
 controlPlane:
   configPatches:
@@ -249,8 +116,7 @@ controlPlane:
         disablePodSecurityPolicy: true
         admissionControl: []
         certSANs:
-          - homelab-talos-0-controlplane.${secret_domain_internal}
-          - homelab-talos-0.${secret_domain_internal}
+          - nanocluster.rengo.internal
         extraArgs:
           feature-gates: MixedProtocolLBService=true,EphemeralContainers=True
       controllerManager:
@@ -258,13 +124,6 @@ controlPlane:
           feature-gates: MixedProtocolLBService=true,EphemeralContainers=True
       proxy:
         disabled: true
-      aescbcEncryptionSecret: ${aescbcEncryptionKey}
-      aggregatorCA:
-        crt: ${k8sAggregatorCert}
-        key: ${k8sAggregatorCertKey}
-      ca:
-        crt: ${clusterCert}
-        key: ${clusterCertKey}
       discovery:
         enabled: true
         registries:
@@ -274,33 +133,22 @@ controlPlane:
       etcd:
         extraArgs:
           election-timeout: "5000"
-        subnet: 10.250.0.0/20
-        ca:
-          crt: ${etcdCert}
-          key: ${etcdCertKey}
+        subnet: 10.13.10.0/24
       # extraManifests:
       #   - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
       #   - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-      secret: ${clusterSecret}
-      serviceAccount:
-        key: ${k8sServiceAccountKey}
-      token: ${clusterToken}
     machine:
       kubelet:
         nodeIP:
           validSubnets:
-            - 10.250.0.0/20
+            - 10.13.10.0/24
         extraArgs:
           feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true,EphemeralContainers=true,ServerSideApply=true
           # rotate-server-certificates: "true"
       time:
         disabled: false
         servers:
-          - 10.250.0.1
-      ca:
-        crt: ${machineCert}
-        key: ${machineCertKey}
-      token: ${machineToken}
+          - time.cloudfare.com
 worker:
   configPatches:
     - op: add
@@ -309,23 +157,12 @@ worker:
         feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true,EphemeralContainers=true,ServerSideApply=true
         # rotate-server-certificates: "true"
   inlinePatch:
-    cluster:
-      aescbcEncryptionSecret: ${aescbcEncryptionKey}
-      ca:
-        crt: ${clusterCert}
-        key: ${clusterCertKey}
-      secret: ${clusterSecret}
-      token: ${clusterToken}
     machine:
       kubelet:
         nodeIP:
           validSubnets:
-            - 10.250.0.0/20
+            - 10.13.10.0/24
       time:
         disabled: false
         servers:
-          - 10.250.0.1
-      ca:
-        crt: ${machineCert}
-        key: ${machineCertKey}
-      token: ${machineToken}
+          - time.cloudfare.com

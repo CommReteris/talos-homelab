@@ -24,7 +24,7 @@ spec:
       retries: 100
   values:
     image:
-      repository: ghcr.io/0dragosh/mailqtt
+      repository: ghcr.io//mailqtt
       tag: v1.1.0
 
     controller:

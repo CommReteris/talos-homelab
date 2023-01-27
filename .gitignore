@@ -27,3 +27,7 @@ talosconfig
 *.crt
 *.key
 generated_values.yaml
+/terraform/local/env.tfvars
+/terraform/cloud/.terraform.lock.hcl
+/terraform/cloud/terraform.tfstate
+/terraform/cloud/terraform.tfstate.backup

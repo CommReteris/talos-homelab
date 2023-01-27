@@ -8,17 +8,17 @@
     ":separatePatchReleases",
     "docker:enableMajor",
     ":enablePreCommit",
-    "github>0dragosh/homelab//.github/renovate/autoMerge.json5",
-    "github>0dragosh/homelab//.github/renovate/labels.json5",
-    "github>0dragosh/homelab//.github/renovate/semanticCommits.json5",
-    "github>0dragosh/homelab//.github/renovate/disabledDatasources.json5"
+    "github>/homelab//.github/renovate/autoMerge.json5",
+    "github>/homelab//.github/renovate/labels.json5",
+    "github>/homelab//.github/renovate/semanticCommits.json5",
+    "github>/homelab//.github/renovate/disabledDatasources.json5"
   ],
   "enabled": true,
   "timezone": "Europe/Bucharest",
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "commitBody": "Signed-off-by: Dragosh <39906742+0dragosh@users.noreply.github.com>",
+  "commitBody": "Signed-off-by: Dragosh <39906742+@users.noreply.github.com>",
   // do not notify on closed unmerged PRs
   "suppressNotifications": ["prIgnoreNotification"],
   // only rebase PRs when there's a conflict
