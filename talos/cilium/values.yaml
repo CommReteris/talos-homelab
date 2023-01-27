@@ -21,7 +21,7 @@ ipam:
   mode: kubernetes
 # autoDirectNodeRoutes enables installation of PodCIDR routes between worker
 # nodes if worker nodes share a common L2 network segment.
-autoDirectNodeRoutes: true
+#autoDirectNodeRoutes: true
 
 # nativeRoutingCIDR allows to explicitly specify the CIDR for native routing. This
 # value corresponds to the configured cluster-cidr.

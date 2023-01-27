@@ -128,7 +128,7 @@ data:
   install-iptables-rules: "true"
   install-no-conntrack-iptables-rules: "false"
 
-  auto-direct-node-routes: "true"
+  auto-direct-node-routes: "false"
   enable-local-redirect-policy: "true"
 
   kube-proxy-replacement: "strict"
@@ -153,7 +153,6 @@ data:
   vtep-cidr: ""
   vtep-mask: ""
   vtep-mac: ""
-  bgp-announce-lb-ip: "true"
   enable-bgp-control-plane: "false"
   bpf-root: "/sys/fs/bpf"
   cgroup-root: "/run/cilium/cgroupv2"
@@ -505,7 +504,7 @@ spec:
     metadata:
       annotations:
         # ensure pods roll when configmap updates
-        cilium.io/cilium-configmap-checksum: "01f15be28548043b76bf9d32a69035bc7e2f5516a53b31a490293bcf81b05737"
+        cilium.io/cilium-configmap-checksum: "4211eb00f38a81b21c75f6cae714f570bdd950124a5f8f0fb0c13e2f6c20e26f"
       labels:
         k8s-app: cilium
     spec:
@@ -621,9 +620,6 @@ spec:
           readOnly: true
         - name: xtables-lock
           mountPath: /run/xtables.lock
-        - name: bgp-config-path
-          mountPath: /var/lib/cilium/bgp
-          readOnly: true
       initContainers:
       # Required to mount cgroup2 filesystem on the underlying Kubernetes node.
       # We use nsenter command with host's cgroup and mount namespaces enabled.
@@ -787,9 +783,6 @@ spec:
       - name: cilium-config-path
         configMap:
           name: cilium-config
-      - name: bgp-config-path
-        configMap:
-          name: bgp-config
 ---
 # Source: cilium/templates/cilium-operator/deployment.yaml
 apiVersion: apps/v1
@@ -863,9 +856,6 @@ spec:
         - name: cilium-config-path
           mountPath: /tmp/cilium/config-map
           readOnly: true
-        - name: bgp-config-path
-          mountPath: /var/lib/cilium/bgp
-          readOnly: true
         terminationMessagePolicy: FallbackToLogsOnError
       hostNetwork: true
       restartPolicy: Always
@@ -890,6 +880,3 @@ spec:
       - name: cilium-config-path
         configMap:
           name: cilium-config
-      - name: bgp-config-path
-        configMap:
-          name: bgp-config

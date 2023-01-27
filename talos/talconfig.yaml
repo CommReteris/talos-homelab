@@ -149,6 +149,7 @@ controlPlane:
         disabled: false
         servers:
           - time.cloudfare.com
+          - 10.13.10.50
 worker:
   configPatches:
     - op: add
@@ -166,3 +167,4 @@ worker:
         disabled: false
         servers:
           - time.cloudfare.com
+          - 10.13.10.50
